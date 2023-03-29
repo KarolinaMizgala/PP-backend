@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "EGmAPPTz1hx/8urMh5cIMd4BDbVE3xb962DepMI/poBBMDVX2goN1e0iDbo5i39fhZB693nX+JrlomRbWl8o0A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\agnie\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\agnie\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\agnie\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\agnie\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\agnie\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\agnie\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
