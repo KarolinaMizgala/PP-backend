@@ -24,8 +24,6 @@ public partial class WizardShopDbContext : DbContext
         {
             entity.Property(e => e.AdressId).ValueGeneratedNever();
             entity.Property(e => e.ZipCode).IsFixedLength();
-
-            entity.HasOne(d => d.User).WithMany(p => p.Addresses).HasConstraintName("FK_Address_User");
         });
 
         modelBuilder.Entity<User>(entity =>

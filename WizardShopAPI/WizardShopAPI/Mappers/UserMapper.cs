@@ -12,7 +12,7 @@ namespace WizardShopAPI.Mappers
                 return null;
             }
             String role = "User";
-            String status = "Active";
+            String status = "Unactivated";
             return new User()
             {
                 UserId = id,
