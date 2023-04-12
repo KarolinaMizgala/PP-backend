@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WizardShopAPI.DTOs;
+using WizardShopAPI.Mappers;
 using WizardShopAPI.Models;
 
 namespace WizardShopAPI.Controllers
@@ -81,14 +83,22 @@ namespace WizardShopAPI.Controllers
         }
 
         // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Product>> PostProduct([FromBody]ProductDto productDto)
         {
-          if (_context.Products == null)
-          {
-              return Problem("Entity set 'WizardShopDbContext.Products'  is null.");
-          }
+            //validation check
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("Invalid values");
+            }
+            //check if category exists
+            if (!CategoryExists(productDto.CategoryId))
+            {
+                return NotFound("No category with that id");
+            }
+            int productId = this.GetNewProductId();
+            Product product = ProductMapper.ProductDtoToProduct(ref productDto, ref productId);
+
             _context.Products.Add(product);
             try
             {
@@ -132,6 +142,25 @@ namespace WizardShopAPI.Controllers
         private bool ProductExists(int id)
         {
             return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        /// <summary>
+        /// Calculates new, unique product id
+        /// </summary>
+        /// <returns>pruduct id</returns>
+        private int GetNewProductId()
+        {
+            if (!_context.Products.Any())
+            {
+                return 1;
+            }
+
+            return _context.Products.Max(x => x.Id) + 1;
+        }
+
+        bool CategoryExists(int id)
+        {
+            return _context.Categories.Any(x=>x.Id==id);
         }
     }
 }
