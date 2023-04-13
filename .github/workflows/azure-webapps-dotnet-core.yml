@@ -52,11 +52,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      - name: Install dependencies
+        run: dotnet restore
+        working-directory: PP-backend/WizardShopAPI/WizardShopAPI/WizardShopAPI.csproj
+
       - name: Build with dotnet
-        run: dotnet build WizardShopAPI/WizardShopAPI.sln --configuration Release
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish WizardShopAPI/WizardShopAPI.sln -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
