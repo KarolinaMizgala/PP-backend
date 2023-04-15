@@ -18,11 +18,11 @@ public partial class User
 
     [StringLength(50)]
     [Unicode(false)]
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; } 
 
     [StringLength(50)]
     [Unicode(false)]
-    public string Surname { get; set; } = null!;
+    public string? Surname { get; set; } 
 
     [StringLength(320)]
     [Unicode(false)]
