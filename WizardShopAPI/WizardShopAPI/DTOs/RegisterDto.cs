@@ -14,18 +14,6 @@ namespace WizardShopAPI.DTOs
         public string Username { get; set; } = null!;
 
         [Required]
-        [NameLikeValue]
-        [StringLength(50)]
-        [Unicode(false)]
-        public string Name { get; set; } = null!;
-
-        [Required]
-        [NameLikeValue]
-        [StringLength(50)]
-        [Unicode(false)]
-        public string Surname { get; set; } = null!;
-
-        [Required]
         [EmailAddress]
         [StringLength(320)]
         [Unicode(false)]

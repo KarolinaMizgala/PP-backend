@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WizardShopAPI.Models;
+using WizardShopAPI.Services;
+using WizardShopAPI.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,11 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("WizardDB");
 builder.Services.AddDbContext<WizardShopDbContext>(options => options.UseSqlServer(connectionString));
 
+//blob storage service 
+builder.Services.AddTransient<IAzureStorage, AzureStorage>();
+
+//delete all jpg files saved in solution folder
+builder.Services.AddHostedService<RemoveJpgService>();
 
 builder.Services.AddMvc();
 
@@ -28,9 +35,8 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -85,10 +86,13 @@ namespace WizardShopAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-          if (_context.Categories == null)
-          {
-              return Problem("Entity set 'WizardShopDbContext.Categories'  is null.");
-          }
+            if (_context.Categories == null)
+            {
+                return Problem("Entity set 'WizardShopDbContext.Categories'  is null.");
+            }
+
+            category.Id = GetNewCategoryiId();
+
             _context.Categories.Add(category);
             try
             {
@@ -132,6 +136,15 @@ namespace WizardShopAPI.Controllers
         private bool CategoryExists(int id)
         {
             return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+        private int GetNewCategoryiId()
+        {
+            if(!_context.Categories.Any())
+            {
+                return 1;
+            }
+
+            return _context.Categories.Max(x => x.Id) + 1;
         }
     }
 }

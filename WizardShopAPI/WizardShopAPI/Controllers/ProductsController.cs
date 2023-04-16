@@ -96,6 +96,7 @@ namespace WizardShopAPI.Controllers
             {
                 return NotFound("No category with that id");
             }
+
             int productId = this.GetNewProductId();
             Product product = ProductMapper.ProductDtoToProduct(ref productDto, ref productId);
 

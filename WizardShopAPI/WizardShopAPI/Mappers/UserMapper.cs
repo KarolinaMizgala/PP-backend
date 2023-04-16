@@ -17,8 +17,6 @@ namespace WizardShopAPI.Mappers
             {
                 UserId = id,
                 Username = dto.Username,
-                Name = dto.Name,
-                Surname = dto.Surname,
                 Email = dto.Email,
                 Password = dto.Password,   
                 Status = status,
