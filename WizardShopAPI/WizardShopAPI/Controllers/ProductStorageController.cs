@@ -8,10 +8,10 @@ namespace WizardShopAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StorageController : ControllerBase
+    public class ProductStorageController : ControllerBase
     {
         private readonly IAzureStorage _storage;
-        public StorageController(IAzureStorage storage)
+        public ProductStorageController(IAzureStorage storage)
         {
             _storage = storage;
         }
@@ -26,10 +26,10 @@ namespace WizardShopAPI.Controllers
             return StatusCode(StatusCodes.Status200OK, files);
         }
 
-        [HttpPost("{imageId}")] //if its a review image id: R+ _ + review id
-        public async Task<IActionResult> Upload(IFormFile file, string imageId)
+        [HttpPost("{productId}")] //if its a review image id: R+ _ + review id
+        public async Task<IActionResult> Upload(IFormFile file, int productId)
         {
-            ImageResponseDto? response = await _storage.UploadAsync(file, imageId);
+            ImageResponseDto? response = await _storage.UploadAsync(file, productId);
 
             // Check if we got an error
             if (response.Error == true)
@@ -45,7 +45,7 @@ namespace WizardShopAPI.Controllers
         }
 
         [HttpGet("{imageId}")]
-        public async Task<IActionResult> Download(string imageId)
+        public async Task<IActionResult> Download(int imageId)
         {
             ImageDto? file = await _storage.DownloadAsync(imageId);
 
@@ -63,10 +63,10 @@ namespace WizardShopAPI.Controllers
             }
         }
 
-        [HttpDelete("{imageId}")]
-        public async Task<IActionResult> Delete(string imageId)
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> Delete(int productId)
         {
-            ImageResponseDto response = await _storage.DeleteAsync(imageId);
+            ImageResponseDto response = await _storage.DeleteAsync(productId);
 
             // Check if we got an error
             if (response.Error == true)

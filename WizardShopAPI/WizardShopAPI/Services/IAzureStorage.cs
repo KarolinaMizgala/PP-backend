@@ -11,21 +11,21 @@ namespace WizardShopAPI.Services
         /// <param name="file">File for upload</param>
         /// /// <param name="imageId">imageId</param>
         /// <returns>Blob with status</returns>
-        Task<ImageResponseDto> UploadAsync(IFormFile file, string imageId);
+        Task<ImageResponseDto> UploadAsync(IFormFile file, int imageId);
 
         /// <summary>
         /// This method downloads a file with the specified filename
         /// </summary>
         /// <param name="imageId">Filename</param>
         /// <returns>Blob</returns>
-        Task<ImageDto> DownloadAsync(string imageId);
+        Task<ImageDto> DownloadAsync(int imageId);
 
         /// <summary>
         /// This method deletes a file with the specified filename
         /// </summary>
         /// <param name="imageId">Filename</param>
         /// <returns>Blob with status</returns>
-        Task<ImageResponseDto> DeleteAsync(string imageId);
+        Task<ImageResponseDto> DeleteAsync(int imageId);
 
         /// <summary>
         /// This method returns a list of all files located in the container

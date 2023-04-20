@@ -4,28 +4,26 @@ using Azure;
 using WizardShopAPI.DTOs;
 using WizardShopAPI.ResponseDto;
 using WizardShopAPI.Services;
-using System.Reflection.Metadata;
 
 namespace WizardShopAPI.Storage
 {
-    public class AzureStorage : IAzureStorage
+    public class AzureReviewStorage : IAzureReviewStorage
     {
         private readonly string _storageConnectionString;
         private readonly string _storageContainerName;
-        private readonly ILogger<AzureStorage> _logger;
+        private readonly ILogger<AzureReviewStorage> _logger;
 
-        public AzureStorage(IConfiguration config,ILogger<AzureStorage> logger)
+        public AzureReviewStorage(IConfiguration config, ILogger<AzureReviewStorage> logger)
         {
             _storageConnectionString = config.GetValue<string>("BlobConnectionString");
             _storageContainerName = config.GetValue<string>("BlobContainerName");
             _logger = logger;
         }
-
         public async Task<ImageResponseDto> DeleteAsync(int imageId)
         {
             BlobContainerClient client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
 
-            BlobClient file = client.GetBlobClient(imageId.ToString() + ".jpg");
+            BlobClient file = client.GetBlobClient(imageId + ".jpg");
 
             try
             {
@@ -36,60 +34,61 @@ namespace WizardShopAPI.Storage
                 when (ex.ErrorCode == BlobErrorCode.BlobNotFound)
             {
                 // File did not exist, log to console and return new response to requesting method
-                _logger.LogError($"File {imageId.ToString() + ".jpg"} was not found.");
-                return new ImageResponseDto { Error = true, Status = $"File with name {imageId.ToString() + ".jpg"} not found.", };
+                _logger.LogError($"File {imageId + ".jpg"} was not found.");
+                return new ImageResponseDto { Error = true, Status = $"File with name {imageId + ".jpg"} not found.", };
             }
 
             // Return a new BlobResponseDto to the requesting method
-            return new ImageResponseDto { Error = false, Status = $"File: {imageId.ToString() + ".jpg"} has been successfully deleted." };
+            return new ImageResponseDto { Error = false, Status = $"File: {imageId + ".jpg"} has been successfully deleted." };
         }
 
-        public async Task<ImageDto> DownloadAsync(int imageId)
+        public Task<ImageDto> DownloadAsync(int imageId)
         {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> GetReviewImageId(int reviewId)
+        {
+            string firstPart="R_"+reviewId.ToString();
+
             // Get a reference to a container named in appsettings.json
             BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
 
-            try
-            {
-                // Get a reference to the blob uploaded earlier from the API in the container from configuration settings
-                BlobClient file = container.GetBlobClient(imageId.ToString() + ".jpg");
+            SortedSet<int> reviewImageIds= new SortedSet<int>();
+            await foreach (BlobItem file in container.GetBlobsAsync())
+            {                
+                var name = file.Name;
 
-                // Check if the file exists in the container
-                if (await file.ExistsAsync())
+                if(name.Length>firstPart.Length)
                 {
-                    var data = await file.OpenReadAsync();
-                    Stream blobContent = data;
-
-                    // Download the file details async
-                    var content = await file.DownloadContentAsync();
-
-                    // Add data to variables in order to return a BlobDto
-                    string name = imageId.ToString() + ".jpg";
-                    string contentType = content.Value.Details.ContentType;
-                    string uri = container.Uri.ToString();
-                    var fullUri = $"{uri}/{name}";
-
-                    // Create new BlobDto with blob data from variables
-                    return new ImageDto
-                    { 
-                        //Content=data, //frontend only needs a URI 
-                        Uri = fullUri,
-                        Name = name,
-                        ContentType = contentType
-                    };
-                }
-            }
-            catch (RequestFailedException ex)
-                when (ex.ErrorCode == BlobErrorCode.BlobNotFound)
-            {
-                // Log error to console
-                _logger.LogError($"File {imageId.ToString() + ".jpg"} was not found.");
+                    string substring=name.Substring(0,firstPart.Length);
+                    if(substring==firstPart)
+                    {
+                        string idWithExtension = name.Substring(firstPart.Length+1);
+                        reviewImageIds.Add(GetImageId(idWithExtension));
+                    }
+                }    
             }
 
-            // File does not exist, return null and handle that in requesting method
-            return null;
+            // Return all files to the requesting method
+            int maxId = reviewImageIds.LastOrDefault() + 1;
+            return maxId;
         }
 
+        private int GetImageId(string idWithExtension)
+        {
+            string id = String.Empty;
+            foreach(char c in idWithExtension)
+            {
+                if(c=='.')
+                {
+                    break;
+                }
+                id += c;
+            }
+            return Int32.Parse(id);
+        }
+        //returns all images that are used in reviews
         public async Task<List<ImageDto>> ListAsync()
         {
             // Get a reference to a container named in appsettings.json
@@ -104,7 +103,7 @@ namespace WizardShopAPI.Storage
                 string uri = container.Uri.ToString();
                 var name = file.Name;
 
-                if (!name.Contains('R'))
+                if (name.Contains('R'))
                 {
                     var fullUri = $"{uri}/{name}";
 
@@ -121,8 +120,47 @@ namespace WizardShopAPI.Storage
             return files;
         }
 
-        public async Task<ImageResponseDto> UploadAsync(IFormFile file, int imageId)
+        public async Task<List<ImageDto>> ListAllImagesForReviewAsync(int reviewId)
         {
+            string firstPart = "R_" + reviewId.ToString();
+
+            // Get a reference to a container named in appsettings.json
+            BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+
+            // Create a new list object for 
+            List<ImageDto> files = new List<ImageDto>();
+
+            await foreach (BlobItem file in container.GetBlobsAsync())
+            {
+                // Add each file retrieved from the storage container to the files list by creating a BlobDto object
+                string uri = container.Uri.ToString();
+                var name = file.Name;
+
+                if (name.Length > firstPart.Length)
+                {
+                    string substring = name.Substring(0, firstPart.Length);
+                    if (substring == firstPart)
+                    {
+                        var fullUri = $"{uri}/{name}";
+
+                        files.Add(new ImageDto
+                        {
+                            Uri = fullUri,
+                            Name = name,
+                            ContentType = file.Properties.ContentType
+                        });
+                    }
+                }
+            }
+
+            // Return all files to the requesting method
+            return files;
+        }
+
+        public async Task<ImageResponseDto> UploadAsync(IFormFile file, int reviewId)
+        {
+            int id = await this.GetReviewImageId(reviewId);
+            string imageId = "R_" + reviewId + '_' + id;
             // Create new upload response object that we can return to the requesting method
             ImageResponseDto response = new();
             // Get a reference to a container named in appsettings.json and then create it
@@ -135,7 +173,7 @@ namespace WizardShopAPI.Storage
                     Guid guid = Guid.NewGuid();
                     string extension = Path.GetExtension(file.FileName);
 
-                    string uploadpath = Path.Combine(Path.GetDirectoryName(file.FileName), imageId.ToString() + extension);
+                    string uploadpath = Path.Combine(Path.GetDirectoryName(file.FileName), imageId+ extension);
                     var stream = new FileStream(uploadpath, FileMode.Create);
 
                     file.CopyTo(stream);
