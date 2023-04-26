@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MessagePack;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,12 @@ namespace WizardShopAPI.Controllers
     public class AddressesController : ControllerBase
     {
         private readonly WizardShopDbContext _context;
+        private readonly IMapper _mapper;
 
-        public AddressesController(WizardShopDbContext context)
+        public AddressesController(WizardShopDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Addresses
@@ -57,14 +60,11 @@ namespace WizardShopAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAddress(int id, Address address)
         {
-            if (id != address.AdressId|| !ModelState.IsValid)
+            if (id != address.AddressId|| !ModelState.IsValid)
             {
                 return BadRequest();
             }
-            if (!UserExists(address.UserId))
-            {
-                return NotFound("User doesn't exist");
-            }
+          
 
             _context.Entry(address).State = EntityState.Modified;
 
@@ -102,7 +102,7 @@ namespace WizardShopAPI.Controllers
 
             int addressId = GetNewAddressId();
 
-            Address address = AddressMapper.AddressDtoToAddress(addressDto, userId, addressId);
+           var address = _mapper.Map<Address>(addressDto);
             _context.Addresses.Add(address);
 
             try
@@ -111,7 +111,7 @@ namespace WizardShopAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (AddressExists(address.AdressId))
+                if (AddressExists(address.AddressId))
                 {
                     return Conflict();
                 }
@@ -150,7 +150,7 @@ namespace WizardShopAPI.Controllers
         }
         private bool AddressExists(int id)
         {
-            return (_context.Addresses?.Any(e => e.AdressId == id)).GetValueOrDefault();
+            return (_context.Addresses?.Any(e => e.AddressId == id)).GetValueOrDefault();
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace WizardShopAPI.Controllers
                 return 1;
             }
 
-            return _context.Addresses.Max(x => x.AdressId) + 1;
+            return _context.Addresses.Max(x => x.AddressId) + 1;
         }
     }
 }

@@ -23,15 +23,16 @@ public partial class WizardShopDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<Order> Orders { get; set; }
+
+    public virtual DbSet<OrderItem> OrdersItems { get; set; }
+
+    public virtual DbSet<OrderDetails>  OrderDetails { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Address>(entity =>
-        {
-            entity.Property(e => e.AdressId).ValueGeneratedNever();
-            entity.Property(e => e.ZipCode).IsFixedLength();
-
-            entity.HasOne(d => d.User).WithMany(p => p.Addresses).HasConstraintName("FK_Address_User");
-        });
+        modelBuilder.Entity<Address>().Property(e => e.ZipCode).IsFixedLength();
+       ;
 
         modelBuilder.Entity<Category>(entity =>
         {
@@ -47,6 +48,10 @@ public partial class WizardShopDbContext : DbContext
         {
             entity.Property(e => e.UserId).ValueGeneratedNever();
         });
+      
+        modelBuilder.Entity<Order>();
+        modelBuilder.Entity<OrderDetails>();
+        modelBuilder.Entity<OrderItem>();
 
         OnModelCreatingPartial(modelBuilder);
     }
