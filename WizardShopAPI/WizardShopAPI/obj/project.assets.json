@@ -160,7 +160,7 @@
       "MessagePackAnalyzer/2.1.152": {
         "type": "package"
       },
-      "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.16": {
+      "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.10": {
         "type": "package",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.10.0"
@@ -4291,10 +4291,10 @@
         "tools/uninstall.ps1"
       ]
     },
-    "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.16": {
-      "sha512": "T4AkjPXOYDqDnfb8PRRHNbB2ozLg9J7CsRZ+jH1MfQGshkFosdwja9c4+QVbKm+1qeLPxul+3weSz+DEvFkA5w==",
+    "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.10": {
+      "sha512": "4SBTyAuYHSiFi/AiqlKiKpl2+EkKaS/q1zeDI4L88cMmy5P01pse25gOAyzfWycI8voz+d1FwTIuqhWCH87IJQ==",
       "type": "package",
-      "path": "microsoft.aspnetcore.authentication.jwtbearer/6.0.16",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/6.0.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4302,7 +4302,7 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
         "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
-        "microsoft.aspnetcore.authentication.jwtbearer.6.0.16.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.jwtbearer.6.0.10.nupkg.sha512",
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
@@ -11437,7 +11437,7 @@
     "net6.0": [
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 12.0.0",
       "Azure.Storage.Blobs >= 12.16.0",
-      "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.16",
+      "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.10",
       "Microsoft.AspNetCore.Session >= 2.2.0",
       "Microsoft.EntityFrameworkCore >= 7.0.4",
       "Microsoft.EntityFrameworkCore.Design >= 7.0.4",
@@ -11450,23 +11450,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\karol\\.nuget\\packages\\": {},
+    "C:\\Users\\agnie\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Studia\\ROK 3\\PP\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
+      "projectUniqueName": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
       "projectName": "WizardShopAPI",
-      "projectPath": "E:\\Studia\\ROK 3\\PP\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
-      "packagesPath": "C:\\Users\\karol\\.nuget\\packages\\",
-      "outputPath": "E:\\Studia\\ROK 3\\PP\\WizardShopAPI\\WizardShopAPI\\obj\\",
+      "projectPath": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
+      "packagesPath": "C:\\Users\\agnie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\karol\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\agnie\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -11503,7 +11503,7 @@
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
-            "version": "[6.0.16, )"
+            "version": "[6.0.10, )"
           },
           "Microsoft.AspNetCore.Session": {
             "target": "Package",
@@ -11565,7 +11565,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.407\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

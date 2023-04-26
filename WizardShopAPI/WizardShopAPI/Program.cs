@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
 using WizardShopAPI;
+using Microsoft.OpenApi.Models;
 using WizardShopAPI.Models;
 using WizardShopAPI.Services;
 using WizardShopAPI.Storage;
@@ -58,9 +59,6 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IUserContextService, UserContextService>();
 
 //swagger
 builder.Services.AddSwaggerGen(options =>
@@ -74,6 +72,9 @@ builder.Services.AddSwaggerGen(options =>
     });
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserContextService, UserContextService>();
 
 //connect to DB
 var connectionString = builder.Configuration.GetConnectionString("WizardDB");
