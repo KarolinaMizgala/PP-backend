@@ -17,7 +17,7 @@ namespace WizardShopAPI.Controllers
             _storage = storage;
         }
 
-        [HttpPost("{reviewId}")] //if its a review image id: R+ _ + review id
+        [HttpPost("{reviewId}")] 
         public async Task<IActionResult> Upload(IFormFile file, int reviewId)
         {
             ImageResponseDto? response = await _storage.UploadAsync(file, reviewId);
@@ -49,6 +49,17 @@ namespace WizardShopAPI.Controllers
             List<ImageDto>? files = await _storage.ListAsync();
 
             return StatusCode(StatusCodes.Status200OK, files);
+        }
+
+        [HttpDelete("{reviewId}")]
+        public async Task<IActionResult> DeleteAllImagesForReview(int reviewId)
+        {
+            ImageResponseDto? response=await _storage.DeleteAsync(reviewId);
+            if(response.Error)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, response);
+            }
+            return StatusCode(StatusCodes.Status200OK, response);
         }
     }
 
