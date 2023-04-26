@@ -4,6 +4,10 @@ using WizardShopAPI.DTOs;
 using WizardShopAPI.Managers;
 using WizardShopAPI.Mappers;
 using WizardShopAPI.Models;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace WizardShopAPI.Controllers
 {
@@ -12,10 +16,12 @@ namespace WizardShopAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly WizardShopDbContext _context;
+        private readonly AuthenticationSettings _authenticationSettings;
 
-        public UsersController(WizardShopDbContext context)
+        public UsersController(WizardShopDbContext context, AuthenticationSettings authenticationSettings)
         {
             _context = context;
+            _authenticationSettings = authenticationSettings;
         }
 
         // GET: api/Users
@@ -154,7 +160,26 @@ namespace WizardShopAPI.Controllers
                 return Unauthorized("Incorrect password");
             }
 
-            return user;
+            //JWT token
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier,  user.UserId.ToString()),
+                     new Claim(ClaimTypes.Role,  user.Role.ToString())
+
+            };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
+            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(_authenticationSettings.JwtExpireDays);
+
+            var token = new JwtSecurityToken(_authenticationSettings.JwtIssuer,
+                _authenticationSettings.JwtIssuer,
+                claims,
+                expires: expires,
+                signingCredentials: cred);
+            var tokenHandler = new JwtSecurityTokenHandler();
+          tokenHandler.WriteToken(token);
+
+            return Ok(tokenHandler.WriteToken(token));
         }
 
         // DELETE: api/Users/5
@@ -221,5 +246,7 @@ namespace WizardShopAPI.Controllers
         {
             return !_context.Users.Any(x => x.Username == username);
         }
+
+    
     }
 }

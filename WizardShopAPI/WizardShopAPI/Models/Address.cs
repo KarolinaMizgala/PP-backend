@@ -10,9 +10,8 @@ namespace WizardShopAPI.Models;
 public partial class Address
 {
     [Key]
-    public int AdressId { get; set; }
+    public int AddressId { get; set; }
 
-    public int UserId { get; set; }
 
     [StringLength(6)]
     public string ZipCode { get; set; } = null!;
@@ -29,7 +28,5 @@ public partial class Address
 
     public int? ApartmentNumber { get; set; }
 
-    [ForeignKey("UserId")]
-    [InverseProperty("Addresses")]
-    public virtual User User { get; set; } = null!;
+
 }

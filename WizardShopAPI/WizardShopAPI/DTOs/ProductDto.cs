@@ -5,6 +5,8 @@ namespace WizardShopAPI.DTOs
 {
     public class ProductDto
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(150)]
         [Unicode(false)]
