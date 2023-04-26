@@ -44,6 +44,4 @@ public partial class User
     [Unicode(false)]
     public string Role { get; set; } = null!;
 
-    [InverseProperty("User")]
-    public virtual ICollection<Address> Addresses { get; } = new List<Address>();
 }
