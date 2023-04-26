@@ -285,3 +285,6 @@ C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\b
 C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\Azure.Storage.Blobs.dll
 C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\Azure.Storage.Common.dll
 C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\System.IO.Hashing.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\Scrutor.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
