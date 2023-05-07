@@ -131,7 +131,7 @@ namespace WizardShopAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return NoContent();
         }
 
         // POST: api/Users/Login
