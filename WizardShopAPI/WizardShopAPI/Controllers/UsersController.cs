@@ -131,7 +131,7 @@ namespace WizardShopAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         // POST: api/Users/Login
