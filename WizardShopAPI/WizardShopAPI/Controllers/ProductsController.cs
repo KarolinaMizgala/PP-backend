@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,15 +28,55 @@ namespace WizardShopAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Products/
+        // GET: api/Products/?orderby=price
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
-        {
-          if (_context.Products == null)
-          {
-              return NotFound();
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts() {
+            string orderby = Request.Query["orderby"].ToString();
+        
+            IQueryable<Product> productsQuery = _context.Products;
+        
+            if (!string.IsNullOrEmpty(orderby)) {
+              string orderbyLower = orderby.ToLower();
+              if (orderbyLower == "price") {
+                  productsQuery = productsQuery.OrderBy(p => p.Price);
+              }
+              else if (orderbyLower == "price-desc") {
+                  productsQuery = productsQuery.OrderByDescending(p => p.Price);
+              }
+              else if (orderbyLower == "rating") {
+                  productsQuery = productsQuery.OrderBy(p => p.Rating);
+              }
+              else if (orderbyLower == "rating-desc") {
+                  productsQuery = productsQuery.OrderByDescending(p => p.Rating);
+              }
+              else if (orderbyLower == "popularity") {
+                  productsQuery = productsQuery.OrderBy(p => p.Popularity);
+              }
+              else if (orderbyLower == "popularity-desc") {
+                  productsQuery = productsQuery.OrderByDescending(p => p.Popularity);
+              }
+              else if (orderbyLower == "name") {
+                  productsQuery = productsQuery.OrderBy(p => p.Name);
+              }
+              else if (orderbyLower == "name-desc") {
+                  productsQuery = productsQuery.OrderByDescending(p => p.Name);
+              }
+              else if (orderbyLower == "category") {
+                  productsQuery = productsQuery.OrderBy(p => p.CategoryId);
+              }
+              else if (orderbyLower == "category-desc") {
+                  productsQuery = productsQuery.OrderByDescending(p => p.CategoryId);
+              }
           }
-            return await _context.Products.ToListAsync();
+        
+            var products = await productsQuery.ToListAsync();
+        
+            if (products == null) {
+                return NotFound();
+            }
+        
+            return products;
         }
 
         // GET: api/Products/5
@@ -85,6 +128,7 @@ namespace WizardShopAPI.Controllers
         }
 
         // POST: api/Products
+        [Description]
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct([FromBody]ProductDto productDto)
         {
