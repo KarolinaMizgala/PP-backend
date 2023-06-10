@@ -5,10 +5,12 @@ using WizardShopAPI.DTOs;
 using WizardShopAPI.ResponseDto;
 using WizardShopAPI.Services;
 using System;
+using Microsoft.EntityFrameworkCore;
+using WizardShopAPI.Models;
 
 namespace WizardShopAPI.Storage
 {
-    public class AzureReviewStorage : IAzureReviewStorage
+    public class AzureReviewStorage: WizardShopDbContext, IAzureReviewStorage
     {
         private readonly string _storageConnectionString;
         private readonly string _storageContainerName;
@@ -21,11 +23,8 @@ namespace WizardShopAPI.Storage
             _logger = logger;
         }
 
-        //to implement: checking if review exists!
-        public async Task<ImageResponseDto> DeleteAsync(int reviewId)
+        public async Task<ImageResponseDto> DeleteAllsFromReviewImageAsync(int reviewId)
         {
-            //to implement: checking if review exists!
-
             BlobContainerClient client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
 
             // Get a reference to a container named in appsettings.json
@@ -99,6 +98,12 @@ namespace WizardShopAPI.Storage
 
         public async Task<ImageResponseDto> UploadAsync(IFormFile file, int reviewId)
         {
+            //checking if review exists
+            using (var context = new WizardShopDbContext())
+            {
+                
+            }
+
             int id = await this.GetReviewImageId(reviewId);
             string imageId = "R_" + reviewId + '_' + id;
             // Create new upload response object that we can return to the requesting method
@@ -160,7 +165,32 @@ namespace WizardShopAPI.Storage
         }
 
 
+        public async Task<List<string>> ListAllUrisForReviewAsync(int reviewId)
+        {
+            string firstPart = "R_" + reviewId.ToString();//ex.: R_12 
 
+            BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+
+            List<string> matchingImages = new List<string>();
+
+            await foreach (BlobItem file in container.GetBlobsAsync())
+            {
+                var name = file.Name;
+                string uri = container.Uri.ToString();
+
+                if (name.Length > firstPart.Length)
+                {
+                    string substring = name.Substring(0, firstPart.Length);
+                    if (substring == firstPart)
+                    {
+                        var fullUri = $"{uri}/{name}";
+                        matchingImages.Add(fullUri);
+                    }
+                }
+            }
+
+            return matchingImages;
+        }
 
         private async Task<List<ImageDto>> GetListOfImagesForReview(int reviewId)
         {

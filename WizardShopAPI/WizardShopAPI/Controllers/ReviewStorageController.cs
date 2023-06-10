@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WizardShopAPI.DTOs;
+using WizardShopAPI.Models;
 using WizardShopAPI.ResponseDto;
 using WizardShopAPI.Services;
 using WizardShopAPI.Storage;
@@ -11,15 +12,28 @@ namespace WizardShopAPI.Controllers
     public class ReviewStorageController:ControllerBase
     {
         private readonly IAzureReviewStorage _storage;
-
-        public ReviewStorageController(IAzureReviewStorage storage)
+        private readonly WizardShopDbContext _context;
+        public ReviewStorageController(IAzureReviewStorage storage, WizardShopDbContext context)
         {
             _storage = storage;
+            _context = context;
         }
 
         [HttpPost("{reviewId}")] 
         public async Task<IActionResult> Upload(IFormFile file, int reviewId)
         {
+            if (_context.Reviews == null)
+            {
+                return BadRequest();
+
+            }
+
+            var review = _context.Reviews.Where(r => r.ReviewId == reviewId).SingleOrDefault();
+            if (review == null)
+            {
+                return BadRequest();
+            }
+
             ImageResponseDto? response = await _storage.UploadAsync(file, reviewId);
 
             // Check if we got an error
@@ -38,7 +52,7 @@ namespace WizardShopAPI.Controllers
         [HttpGet("{reviewId}")]
         public async Task<IActionResult> GetAllImagesForReview(int reviewId)
         {
-            List<ImageDto>? files = await _storage.ListAllImagesForReviewAsync(reviewId);
+            List<string>? files = await _storage.ListAllUrisForReviewAsync(reviewId);
 
             return StatusCode(StatusCodes.Status200OK, files);
         }
@@ -54,7 +68,19 @@ namespace WizardShopAPI.Controllers
         [HttpDelete("{reviewId}")]
         public async Task<IActionResult> DeleteAllImagesForReview(int reviewId)
         {
-            ImageResponseDto? response=await _storage.DeleteAsync(reviewId);
+            if (_context.Reviews == null)
+            {
+                return BadRequest();
+
+            }
+
+            var review = _context.Reviews.Where(r => r.ReviewId == reviewId).SingleOrDefault();
+            if (review == null)
+            {
+                return BadRequest();
+            }
+
+            ImageResponseDto? response=await _storage.DeleteAllsFromReviewImageAsync(reviewId);
             if(response.Error)
             {
                 return StatusCode(StatusCodes.Status400BadRequest, response);

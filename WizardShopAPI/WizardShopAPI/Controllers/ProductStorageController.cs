@@ -66,7 +66,7 @@ namespace WizardShopAPI.Controllers
         [HttpDelete("{productId}")]
         public async Task<IActionResult> Delete(int productId)
         {
-            ImageResponseDto response = await _storage.DeleteAsync(productId);
+            ImageResponseDto response = await _storage.DeleteAllsFromReviewImageAsync(productId);
 
             // Check if we got an error
             if (response.Error == true)

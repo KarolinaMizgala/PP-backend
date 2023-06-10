@@ -21,7 +21,7 @@ namespace WizardShopAPI.Storage
             _logger = logger;
         }
 
-        public async Task<ImageResponseDto> DeleteAsync(int imageId)
+        public async Task<ImageResponseDto> DeleteAllsFromReviewImageAsync(int imageId)
         {
             BlobContainerClient client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
 
