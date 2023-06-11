@@ -7,5 +7,6 @@ namespace WizardShopAPI.Services
        // Task<int> GetReviewImageId(int reviewId);
 
         Task<List<ImageDto>> ListAllImagesForReviewAsync(int reviewId);
+        Task<List<string>> ListAllUrisForReviewAsync(int reviewId);
     }
 }

@@ -15,6 +15,8 @@ public partial class WizardShopDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Review> Reviews { get; set; }
+
     public virtual DbSet<Address> Addresses { get; set; }
 
     public virtual DbSet<Category> Categories { get; set; }
@@ -27,12 +29,12 @@ public partial class WizardShopDbContext : DbContext
 
     public virtual DbSet<OrderItem> OrdersItems { get; set; }
 
-    public virtual DbSet<OrderDetails>  OrderDetails { get; set; }
+    public virtual DbSet<OrderDetails> OrderDetails { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Address>().Property(e => e.ZipCode).IsFixedLength();
-       ;
+        ;
 
         modelBuilder.Entity<Category>(entity =>
         {
@@ -48,10 +50,15 @@ public partial class WizardShopDbContext : DbContext
         {
             entity.Property(e => e.UserId).ValueGeneratedNever();
         });
-      
+
         modelBuilder.Entity<Order>();
         modelBuilder.Entity<OrderDetails>();
         modelBuilder.Entity<OrderItem>();
+
+        modelBuilder.Entity<Review>(entity =>
+        {
+            entity.Property(e => e.ReviewId).ValueGeneratedNever();
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }

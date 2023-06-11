@@ -25,7 +25,7 @@ namespace WizardShopAPI.Services
         /// </summary>
         /// <param name="imageId">Filename</param>
         /// <returns>Blob with status</returns>
-        Task<ImageResponseDto> DeleteAsync(int imageId);
+        Task<ImageResponseDto> DeleteAllsFromReviewImageAsync(int imageId);
 
         /// <summary>
         /// This method returns a list of all files located in the container
