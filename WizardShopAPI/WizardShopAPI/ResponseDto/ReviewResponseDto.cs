@@ -8,7 +8,7 @@ namespace WizardShopAPI.ResponseDto
     public class ReviewResponseDto
     {
         public int ReviewId { get; set; }
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public int Rating { get; set; }

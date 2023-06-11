@@ -13,8 +13,7 @@ public partial class Review
     [Required]
     public int ReviewId { get; set; }
 
-    [Required]
-    public int ProductId { get; set; }
+    public int? ProductId { get; set; }
 
     [StringLength(50)]
     [Unicode(false)]
