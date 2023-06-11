@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,8 +26,8 @@ namespace WizardShopAPI.Controllers
             _storage = storage;
         }
 
-        // GET: api/Reviews
-        [HttpGet]
+        // GET: api/5/ProductReviews
+        [HttpGet("{productId}/ProductReviews")]
         public async Task<ActionResult<IEnumerable<ReviewResponseDto>>> GetReviewsForProduct(int productId)
         {
             if (_context.Reviews == null)
@@ -87,7 +88,7 @@ namespace WizardShopAPI.Controllers
         }
 
         // POST: api/Reviews
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ReviewResponseDto>> PostReview(ReviewDto reviewDto)
         {
@@ -142,6 +143,7 @@ namespace WizardShopAPI.Controllers
         }
 
         // DELETE: api/Reviews/5
+        [Authorize]
         [HttpDelete("{reviewId}")]
         public async Task<IActionResult> DeleteReview(int reviewId)
         {
