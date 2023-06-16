@@ -11,6 +11,7 @@ using WizardShopAPI.DTOs;
 using WizardShopAPI.Models;
 using WizardShopAPI.ResponseDto;
 using WizardShopAPI.Services;
+using WizardShopAPI.Storage;
 
 namespace WizardShopAPI.Controllers
 {
@@ -42,7 +43,7 @@ namespace WizardShopAPI.Controllers
             foreach (var review in reviews)
             {
                 string username = "Anonymous";
-                List<string> images = await _storage.ListAllUrisForReviewAsync(review.ReviewId);
+                List<string> images = await _storage.GetListOfAllUrisForEntityAsync(review.ReviewId);
                 if (review.UserId.HasValue)
                 {
                     User user = _context.Users.Where(u => u.UserId == review.UserId!).FirstOrDefault();
@@ -71,7 +72,7 @@ namespace WizardShopAPI.Controllers
                 return NotFound();
             }
 
-            List<string> images = await _storage.ListAllUrisForReviewAsync(reviewId);
+            List<string> images = await _storage.GetListOfAllUrisForEntityAsync(reviewId);
 
             string username = "Anonymous";
             if (review.UserId.HasValue)
@@ -157,9 +158,9 @@ namespace WizardShopAPI.Controllers
 
             
 
-            ImageResponseDto rdto=await _storage.DeleteAllsFromReviewImageAsync(reviewId);
+            bool response=await _storage.DeleteAllImagesFromReviewAsync(reviewId);
 
-            if (rdto.Error) return BadRequest();
+            if (!response) return BadRequest();
 
             _context.Reviews.Remove(review);
             await _context.SaveChangesAsync();

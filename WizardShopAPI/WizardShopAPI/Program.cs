@@ -79,7 +79,7 @@ var connectionString = builder.Configuration.GetConnectionString("WizardDB");
 builder.Services.AddDbContext<WizardShopDbContext>(options => options.UseSqlServer(connectionString));
 
 //blob storage service 
-builder.Services.AddScoped<IAzureReviewStorage, AzureReviewStorage>();
+builder.Services.AddTransient<IAzureReviewStorage, AzureReviewStorage>();
 builder.Services.AddTransient<IAzureStorage, AzureStorage>();
 
 //delete all jpg files saved in solution folder

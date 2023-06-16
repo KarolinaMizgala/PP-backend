@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WizardShopAPI.DTOs;
 using WizardShopAPI.Models;
 using WizardShopAPI.ResponseDto;
@@ -19,6 +20,7 @@ namespace WizardShopAPI.Controllers
             _context = context;
         }
 
+        [Authorize]
         [HttpPost("{reviewId}")] 
         public async Task<IActionResult> Upload(IFormFile file, int reviewId)
         {
@@ -52,19 +54,12 @@ namespace WizardShopAPI.Controllers
         [HttpGet("{reviewId}")]
         public async Task<IActionResult> GetAllImagesForReview(int reviewId)
         {
-            List<string>? files = await _storage.ListAllUrisForReviewAsync(reviewId);
+            List<string>? files = await _storage.GetListOfAllUrisForEntityAsync(reviewId);
 
             return StatusCode(StatusCodes.Status200OK, files);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllReviewImages()
-        {
-            List<ImageDto>? files = await _storage.ListAsync();
-
-            return StatusCode(StatusCodes.Status200OK, files);
-        }
-
+        [Authorize]
         [HttpDelete("{reviewId}")]
         public async Task<IActionResult> DeleteAllImagesForReview(int reviewId)
         {
@@ -80,14 +75,20 @@ namespace WizardShopAPI.Controllers
                 return BadRequest();
             }
 
-            ImageResponseDto? response=await _storage.DeleteAllsFromReviewImageAsync(reviewId);
-            if(response.Error)
+            bool response = await _storage.DeleteAllImagesFromReviewAsync(reviewId);
+            if (!response)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, response);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            return StatusCode(StatusCodes.Status200OK, response);
+            return StatusCode(StatusCodes.Status200OK);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllReviewImages()
+        {
+            List<ImageDto>? files = await _storage.ListAsync();
+
+            return StatusCode(StatusCodes.Status200OK, files);
         }
     }
-
-
 }
