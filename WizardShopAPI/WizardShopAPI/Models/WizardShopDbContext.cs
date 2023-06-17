@@ -29,6 +29,8 @@ public partial class WizardShopDbContext : DbContext
 
     public virtual DbSet<OrderDetails>  OrderDetails { get; set; }
 
+    public virtual DbSet<Payment> Payments { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Address>().Property(e => e.ZipCode).IsFixedLength();
@@ -48,11 +50,14 @@ public partial class WizardShopDbContext : DbContext
         {
             entity.Property(e => e.UserId).ValueGeneratedNever();
         });
-      
-        modelBuilder.Entity<Order>();
+
+        modelBuilder.Entity<Order>()
+            .Property(o => o.PaymentId)
+        .IsRequired(false); ;
+
         modelBuilder.Entity<OrderDetails>();
         modelBuilder.Entity<OrderItem>();
-
+        modelBuilder.Entity<Payment>();
         OnModelCreatingPartial(modelBuilder);
     }
 

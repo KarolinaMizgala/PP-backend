@@ -2,10 +2,17 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PayPal.Api;
+using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
+using PdfSharp.Pdf;
+using System.Text;
 using WizardShopAPI.DTOs;
 using WizardShopAPI.Infrastructure;
 using WizardShopAPI.Models;
+using WizardShopAPI.Paypal;
 using WizardShopAPI.Services;
+using Order = WizardShopAPI.Models.Order;
 
 namespace WizardShopAPI.Controllers
 {
@@ -13,18 +20,22 @@ namespace WizardShopAPI.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IUserContextService _userContextService;
 
+        private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserContextService _userContextService;
+        private readonly IConfiguration _configuration;
         private ShoppingCartManager _shoppingCartManager { get; set; }
         private WizardShopDbContext _dbContext { get; set; }
-        public OrderController(IHttpContextAccessor httpContextAccessor, WizardShopDbContext dbContext, IMapper mapper, IUserContextService userContextService)
+        public OrderController(IHttpContextAccessor httpContextAccessor, WizardShopDbContext dbContext, IMapper mapper, IUserContextService userContextService, IConfiguration configuration)
         {
 
             _shoppingCartManager = new ShoppingCartManager(httpContextAccessor, dbContext, mapper);
+            _httpContextAccessor = httpContextAccessor;
             _dbContext = dbContext;
             _mapper = mapper;
             _userContextService = userContextService;
+            _configuration = configuration;
         }
         [HttpPost]
         [Authorize]
@@ -36,14 +47,13 @@ namespace WizardShopAPI.Controllers
                 if (orderDet is null)
                     return NotFound();
 
-                
+
                 orderDet.UserId = _userContextService.GetUserId;
 
                 if (orderDet.UserId is null)
                     return NotFound();
 
-              
-
+             
 
                 var orderDto = _mapper.Map<OrderDto>(orderDetails);
 
@@ -53,7 +63,7 @@ namespace WizardShopAPI.Controllers
 
                 var order = _mapper.Map<Order>(orderDto);
                 order.OrderDetailsId = orderDet.Id;
-                  _dbContext.OrderDetails.Add(orderDet);
+                _dbContext.OrderDetails.Add(orderDet);
                 _dbContext.SaveChanges();
                 order.OrderDetails = orderDet;
                 foreach (var item in _shoppingCartManager.GetItemsList())
@@ -62,7 +72,7 @@ namespace WizardShopAPI.Controllers
                     order.OrderItems.Add(item);
                 }
 
-                
+
 
                 _dbContext.Orders.Add(order);
                 _dbContext.SaveChanges();
@@ -70,6 +80,7 @@ namespace WizardShopAPI.Controllers
             }
             return BadRequest();
         }
+       
 
         [HttpDelete]
         [Authorize]
@@ -81,30 +92,60 @@ namespace WizardShopAPI.Controllers
             .FirstOrDefault(r => r.OrderId == id);
             if (order == null) return NotFound("Orders not fount");
 
-            int orderDetailsId = order.OrderDetailsId;
-            var orderDetails = _dbContext.OrderDetails.FirstOrDefault(r => r.Id == orderDetailsId);
-            _dbContext.OrderDetails.Remove(orderDetails);
-            _dbContext.Orders.Remove(order);
+            order.OrderState=OrderState.Cancelled;
+            _dbContext.Orders.Update(order);
             _dbContext.SaveChanges();
             return Ok();
 
         }
 
+        [HttpPatch]
+        [Authorize(Roles = "Admin")]
+        [Route("{id}")]
+        public ActionResult UpdateOrder(int id, OrderState orderSate)
+        {
+            var order = _dbContext
+            .Orders
+            .FirstOrDefault(r => r.OrderId == id);
+            if (order == null) return NotFound("Orders not fount");
+
+            int orderDetailsId = order.OrderDetailsId;
+            var orderDetails = _dbContext.OrderDetails.FirstOrDefault(r => r.Id == orderDetailsId);
+            order.OrderState= orderSate;
+            switch(orderSate)
+            {
+                case OrderState.Paid:  order.DatePayment = DateTime.Now; break;
+                case OrderState.Delivered: order.DateDelivered = DateTime.Now; break;
+                case OrderState.Shipped: order.DateShipped = DateTime.Now; break;
+            }
+            _dbContext.Orders.Update(order);
+            _dbContext.SaveChanges();
+            return Ok();
+
+        }
+
+        private Order GetOrder(int id)
+        {
+            if (_dbContext.Orders == null)
+            {
+                return null;
+            }
+
+            var order =  _dbContext
+                  .Orders
+                  .Include(r => r.OrderDetails)
+                  .Include(r => r.OrderItems)
+                  .FirstOrDefault(r => r.OrderId == id);
+
+            return order;
+        }
         [HttpGet]
         [Authorize]
         [Route("{id}")]
         public async Task<ActionResult> GetOrderById(int id)
         {
-            if (_dbContext.Orders == null)
-            {
-                return NotFound();
-            }
-           
-            var order = await _dbContext
-                  .Orders
-                  .Include(r => r.OrderDetails)
-                  .Include(r => r.OrderItems)
-                  .FirstOrDefaultAsync(r=> r.OrderId ==id);
+
+            var order = GetOrder(id);
 
             if (order == null) return NotFound();
 
@@ -171,6 +212,7 @@ namespace WizardShopAPI.Controllers
             return Ok(result);
 
         }
+        
 
     }
 }

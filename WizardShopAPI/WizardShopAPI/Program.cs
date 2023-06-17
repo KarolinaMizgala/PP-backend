@@ -21,6 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(policy => policy.AddDefaultPolicy(build =>
 {
     build.WithOrigins("https://localhost:3000").AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed((host) => true).AllowCredentials();
+    build.WithOrigins("https://api-m.sandbox.paypal.com").AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed((host) => true).AllowCredentials();
 }));
 
 

@@ -94,10 +94,22 @@ namespace WizardShopAPI.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DateDelivered")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DatePayment")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateShipped")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("OrderDetailsId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderState")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PaymentId")
                         .HasColumnType("int");
 
                     b.Property<double>("TotalPrice")
@@ -106,6 +118,8 @@ namespace WizardShopAPI.Migrations
                     b.HasKey("OrderId");
 
                     b.HasIndex("OrderDetailsId");
+
+                    b.HasIndex("PaymentId");
 
                     b.ToTable("Orders");
                 });
@@ -142,11 +156,14 @@ namespace WizardShopAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -158,9 +175,6 @@ namespace WizardShopAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("OrderDetailsId")
-                        .HasColumnType("int");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -176,11 +190,45 @@ namespace WizardShopAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderDetailsId");
-
                     b.HasIndex("OrderId");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("OrdersItems");
+                });
+
+            modelBuilder.Entity("WizardShopAPI.Models.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
+
+                    b.Property<decimal?>("CVC")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpirationDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameOnCard")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ZIP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PaymentId");
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("WizardShopAPI.Models.Product", b =>
@@ -291,7 +339,13 @@ namespace WizardShopAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WizardShopAPI.Models.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId");
+
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("WizardShopAPI.Models.OrderDetails", b =>
@@ -302,28 +356,35 @@ namespace WizardShopAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WizardShopAPI.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Address");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WizardShopAPI.Models.OrderItem", b =>
                 {
-                    b.HasOne("WizardShopAPI.Models.OrderDetails", null)
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderDetailsId");
-
                     b.HasOne("WizardShopAPI.Models.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("WizardShopAPI.Models.Product", "Products")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("WizardShopAPI.Models.Order", b =>
-                {
-                    b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("WizardShopAPI.Models.OrderDetails", b =>
                 {
                     b.Navigation("OrderItems");
                 });
