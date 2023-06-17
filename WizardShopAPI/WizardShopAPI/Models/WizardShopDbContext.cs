@@ -28,7 +28,7 @@ public partial class WizardShopDbContext : DbContext
     public virtual DbSet<OrderItem> OrdersItems { get; set; }
 
     public virtual DbSet<OrderDetails>  OrderDetails { get; set; }
-
+    public virtual DbSet<Review> Reviews { get; set; }
     public virtual DbSet<Payment> Payments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,6 +49,11 @@ public partial class WizardShopDbContext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
             entity.Property(e => e.UserId).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<Review>(entity =>
+        {
+            entity.Property(e => e.ReviewId).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<Order>()
