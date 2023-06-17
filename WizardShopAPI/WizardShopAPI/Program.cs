@@ -10,11 +10,9 @@ using WizardShopAPI.Models;
 using WizardShopAPI.Services;
 using WizardShopAPI.Storage;
 using Swashbuckle.AspNetCore.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //cors
@@ -82,6 +80,7 @@ var connectionString = builder.Configuration.GetConnectionString("WizardDB");
 builder.Services.AddDbContext<WizardShopDbContext>(options => options.UseSqlServer(connectionString));
 
 //blob storage service 
+builder.Services.AddTransient<IAzureReviewStorage, AzureReviewStorage>();
 builder.Services.AddTransient<IAzureStorage, AzureStorage>();
 
 //delete all jpg files saved in solution folder

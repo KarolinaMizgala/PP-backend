@@ -90,7 +90,7 @@ namespace WizardShopAPI.Controllers
             var order = _dbContext
             .Orders
             .FirstOrDefault(r => r.OrderId == id);
-            if (order == null) return NotFound("Orders not fount");
+            if (order == null) return NotFound("Orders not found");
 
             order.OrderState=OrderState.Cancelled;
             _dbContext.Orders.Update(order);

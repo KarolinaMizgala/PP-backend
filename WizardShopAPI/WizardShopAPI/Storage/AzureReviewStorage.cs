@@ -5,97 +5,24 @@ using WizardShopAPI.DTOs;
 using WizardShopAPI.ResponseDto;
 using WizardShopAPI.Services;
 using System;
+using Microsoft.EntityFrameworkCore;
+using WizardShopAPI.Models;
 
 namespace WizardShopAPI.Storage
 {
-    public class AzureReviewStorage : IAzureReviewStorage
+    public class AzureReviewStorage: IAzureReviewStorage
     {
         private readonly string _storageConnectionString;
         private readonly string _storageContainerName;
-        private readonly ILogger<AzureReviewStorage> _logger;
+        private readonly ILogger<IAzureReviewStorage> _logger;
 
-        public AzureReviewStorage(IConfiguration config, ILogger<AzureReviewStorage> logger)
+        public AzureReviewStorage(IConfiguration config, ILogger<IAzureReviewStorage> logger)
         {
             _storageConnectionString = config.GetValue<string>("BlobConnectionString");
             _storageContainerName = config.GetValue<string>("BlobContainerName");
             _logger = logger;
         }
 
-        //to implement: checking if review exists!
-        public async Task<ImageResponseDto> DeleteAsync(int reviewId)
-        {
-            //to implement: checking if review exists!
-
-            BlobContainerClient client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
-
-            // Get a reference to a container named in appsettings.json
-            BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
-
-            List<ImageDto> matchingImagesToRID =await this.GetListOfImagesForReview(reviewId);
-
-            foreach(ImageDto reviewImage in matchingImagesToRID)
-            {
-                BlobClient clientFile = client.GetBlobClient(reviewImage.Name);
-                try
-                {
-                    // Delete the file
-                    await clientFile.DeleteAsync();
-                }
-                catch (RequestFailedException ex)
-                    when (ex.ErrorCode == BlobErrorCode.BlobNotFound)
-                {
-                    return new ImageResponseDto { Error = true, Status = $"File with name {reviewImage.Name} not found.", };
-                }
-            }
-
-            // Return a new BlobResponseDto to the requesting method
-            return new ImageResponseDto { Error = false, Status = $"Files for review: {reviewId} have been successfully deleted." };
-        }
-
-        public Task<ImageDto> DownloadAsync(int imageId)
-        {
-            throw new NotImplementedException();
-        }        
-        
-        //returns all images that are used in reviews
-        public async Task<List<ImageDto>> ListAsync()
-        {
-            // Get a reference to a container named in appsettings.json
-            BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
-
-            // Create a new list object for 
-            List<ImageDto> files = new List<ImageDto>();
-
-            await foreach (BlobItem file in container.GetBlobsAsync())
-            {
-                // Add each file retrieved from the storage container to the files list by creating a BlobDto object
-                string uri = container.Uri.ToString();
-                var name = file.Name;
-
-                if (name.Contains('R'))
-                {
-                    var fullUri = $"{uri}/{name}";
-
-                    files.Add(new ImageDto
-                    {
-                        Uri = fullUri,
-                        Name = name,
-                        ContentType = file.Properties.ContentType
-                    });
-                }
-            }
-
-            // Return all files to the requesting method
-            return files;
-        }
-
-        public async Task<List<ImageDto>> ListAllImagesForReviewAsync(int reviewId)
-        {
-            List<ImageDto> matchingImages = await GetListOfImagesForReview(reviewId);
-
-            // Return all files to the requesting method
-            return matchingImages;
-        }
 
         public async Task<ImageResponseDto> UploadAsync(IFormFile file, int reviewId)
         {
@@ -113,7 +40,7 @@ namespace WizardShopAPI.Storage
                     Guid guid = Guid.NewGuid();
                     string extension = Path.GetExtension(file.FileName);
 
-                    string uploadpath = Path.Combine(Path.GetDirectoryName(file.FileName), imageId+ extension);
+                    string uploadpath = Path.Combine(Path.GetDirectoryName(file.FileName), imageId + extension);
                     var stream = new FileStream(uploadpath, FileMode.Create);
 
                     file.CopyTo(stream);
@@ -159,7 +86,89 @@ namespace WizardShopAPI.Storage
             return response;
         }
 
+        //returns all images that are used in reviews
+        public async Task<List<ImageDto>> ListAsync()
+        {
+            // Get a reference to a container named in appsettings.json
+            BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
 
+            // Create a new list object for 
+            List<ImageDto> files = new List<ImageDto>();
+
+            await foreach (BlobItem file in container.GetBlobsAsync())
+            {
+                // Add each file retrieved from the storage container to the files list by creating a BlobDto object
+                string uri = container.Uri.ToString();
+                var name = file.Name;
+
+                if (name.Contains('R'))
+                {
+                    var fullUri = $"{uri}/{name}";
+
+                    files.Add(new ImageDto
+                    {
+                        Uri = fullUri,
+                        Name = name,
+                        ContentType = file.Properties.ContentType
+                    });
+                }
+            }
+
+            // Return all files to the requesting method
+            return files;
+        }
+
+        public async Task<List<string>> GetListOfAllUrisForEntityAsync(int reviewId)
+        {
+            string firstPart = "R_" + reviewId.ToString();//ex.: R_12 
+
+            BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+
+            List<string> matchingImages = new List<string>();
+
+            await foreach (BlobItem file in container.GetBlobsAsync())
+            {
+                var name = file.Name;
+                string uri = container.Uri.ToString();
+
+                if (name.Length > firstPart.Length)
+                {
+                    string substring = name.Substring(0, firstPart.Length);
+                    if (substring == firstPart)
+                    {
+                        var fullUri = $"{uri}/{name}";
+                        matchingImages.Add(fullUri);
+                    }
+                }
+            }
+
+            return matchingImages;
+        }
+
+        public async Task<bool> DeleteAllImagesFromReviewAsync(int reviewId)
+        {
+            BlobContainerClient client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+
+            List<ImageDto> matchingImagesToRID =await this.GetListOfImagesForReview(reviewId);
+
+            foreach(ImageDto reviewImage in matchingImagesToRID)
+            {
+                BlobClient clientFile = client.GetBlobClient(reviewImage.Name);
+                try
+                {
+                    // Delete the file
+                    await clientFile.DeleteAsync();
+                }
+                catch (RequestFailedException ex)
+                    when (ex.ErrorCode == BlobErrorCode.BlobNotFound)
+                {
+                    return false;
+                }
+            }
+
+            // Return a new BlobResponseDto to the requesting method
+            return true;
+        }        
 
 
         private async Task<List<ImageDto>> GetListOfImagesForReview(int reviewId)
@@ -193,21 +202,7 @@ namespace WizardShopAPI.Storage
 
             return matchingImages;
         }
-
-        //from ex. 123.jpg returns 123
-        private int GetImageId(string idWithExtension)
-        {
-            string id = String.Empty;
-            foreach (char c in idWithExtension)
-            {
-                if (c == '.')
-                {
-                    break;
-                }
-                id += c;
-            }
-            return Int32.Parse(id);
-        }
+        
         private async Task<int> GetReviewImageId(int reviewId)
         {
             string firstPart = "R_" + reviewId.ToString();
@@ -235,6 +230,24 @@ namespace WizardShopAPI.Storage
             int maxId = reviewImageIds.LastOrDefault() + 1;
             return maxId;
         }
+        //from ex. 123.jpg returns 123
+        private int GetImageId(string idWithExtension)
+        {
+            string id = String.Empty;
+            foreach (char c in idWithExtension)
+            {
+                if (c == '.')
+                {
+                    break;
+                }
+                id += c;
+            }
+            return Int32.Parse(id);
+        }
 
+        public Task<bool> DeleteAllImagesFromEntityAsync(int entityId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
