@@ -109,6 +109,45 @@
           }
         }
       },
+      "com.theartofdev.edmodo.cropper/2.7.0": {
+        "type": "package",
+        "compile": {
+          "lib/com.theartofdev.edmodo.cropper.dll": {}
+        },
+        "runtime": {
+          "lib/com.theartofdev.edmodo.cropper.dll": {}
+        }
+      },
+      "HtmlRenderer.Core/1.5.1-beta1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/HtmlRenderer.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/net45/HtmlRenderer.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
+      "HtmlRenderer.PdfSharp/1.5.1-beta1": {
+        "type": "package",
+        "dependencies": {
+          "HtmlRenderer.Core": "1.5.1-beta1",
+          "PDFsharp": "1.50.4000-beta3b"
+        },
+        "compile": {
+          "lib/net45/HtmlRenderer.PdfSharp.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/net45/HtmlRenderer.PdfSharp.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -2250,6 +2289,49 @@
           }
         }
       },
+      "PayPal/1.9.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "compile": {
+          "lib/net451/PayPal.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net451/PayPal.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "PDFsharp/1.50.4000-beta3b": {
+        "type": "package",
+        "compile": {
+          "lib/net20/PdfSharp.Charting.dll": {
+            "related": ".xml"
+          },
+          "lib/net20/PdfSharp.dll": {
+            "related": ".Charting.xml;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net20/PdfSharp.Charting.dll": {
+            "related": ".xml"
+          },
+          "lib/net20/PdfSharp.dll": {
+            "related": ".Charting.xml;.xml"
+          }
+        },
+        "resource": {
+          "lib/net20/de/PdfSharp.Charting.resources.dll": {
+            "locale": "de"
+          },
+          "lib/net20/de/PdfSharp.resources.dll": {
+            "locale": "de"
+          }
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
         "type": "package",
         "runtimeTargets": {
@@ -4225,6 +4307,59 @@
         "lib/net6.0/Azure.Storage.Common.xml",
         "lib/netstandard2.0/Azure.Storage.Common.dll",
         "lib/netstandard2.0/Azure.Storage.Common.xml"
+      ]
+    },
+    "com.theartofdev.edmodo.cropper/2.7.0": {
+      "sha512": "Zo52Sb2jWI8xVgBDwDhoWRu6WjJ4Xv/ZcGFrMPgmpy4rNLB/VmQqraZeik/o4dAxQSEFI6kKE0IJLWVWrxdxxw==",
+      "type": "package",
+      "path": "com.theartofdev.edmodo.cropper/2.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "com.theartofdev.edmodo.cropper.2.7.0.nupkg.sha512",
+        "com.theartofdev.edmodo.cropper.nuspec",
+        "lib/com.theartofdev.edmodo.cropper.dll"
+      ]
+    },
+    "HtmlRenderer.Core/1.5.1-beta1": {
+      "sha512": "HmMbhQuB5oEZvKa5kBFL7zWEdpzN9qpj0aO48VQ5A5kAuz1Cd0tzf37tek81K9IqcOo32MZhD3HqsSKM3R1uBQ==",
+      "type": "package",
+      "path": "htmlrenderer.core/1.5.1-beta1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "htmlrenderer.core.1.5.1-beta1.nupkg.sha512",
+        "htmlrenderer.core.nuspec",
+        "lib/net20/HtmlRenderer.dll",
+        "lib/net20/HtmlRenderer.pdb",
+        "lib/net30/HtmlRenderer.dll",
+        "lib/net30/HtmlRenderer.pdb",
+        "lib/net35-client/HtmlRenderer.dll",
+        "lib/net35-client/HtmlRenderer.pdb",
+        "lib/net40-client/HtmlRenderer.dll",
+        "lib/net40-client/HtmlRenderer.pdb",
+        "lib/net45/HtmlRenderer.dll",
+        "lib/net45/HtmlRenderer.pdb"
+      ]
+    },
+    "HtmlRenderer.PdfSharp/1.5.1-beta1": {
+      "sha512": "3+w+AJDiDVzYRk3K3jvTo+4Lf4h6fsnUDEf6hWB1dBouWolaTAHRCdNNO8r/Du3cFlfNeeMXqIUuNUEuINsvHA==",
+      "type": "package",
+      "path": "htmlrenderer.pdfsharp/1.5.1-beta1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "htmlrenderer.pdfsharp.1.5.1-beta1.nupkg.sha512",
+        "htmlrenderer.pdfsharp.nuspec",
+        "lib/net20/HtmlRenderer.PdfSharp.dll",
+        "lib/net20/HtmlRenderer.PdfSharp.pdb",
+        "lib/net35-client/HtmlRenderer.PdfSharp.dll",
+        "lib/net35-client/HtmlRenderer.PdfSharp.pdb",
+        "lib/net40-client/HtmlRenderer.PdfSharp.dll",
+        "lib/net40-client/HtmlRenderer.PdfSharp.pdb",
+        "lib/net45/HtmlRenderer.PdfSharp.dll",
+        "lib/net45/HtmlRenderer.PdfSharp.pdb",
+        "readme.txt"
       ]
     },
     "Humanizer.Core/2.14.1": {
@@ -7088,6 +7223,40 @@
         "lib/netstandard2.0/NuGet.Versioning.xml",
         "nuget.versioning.6.3.1.nupkg.sha512",
         "nuget.versioning.nuspec"
+      ]
+    },
+    "PayPal/1.9.1": {
+      "sha512": "b3vq6Lc9CwSooCX2tsZ02zb7E/K/cA6EILCoMynue+ZeVuitJNqt0YwxPnp7uN0Pccob02oDlpAjRLH+GRCRxA==",
+      "type": "package",
+      "path": "paypal/1.9.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/PayPal.dll",
+        "lib/net40/PayPal.xml",
+        "lib/net45/PayPal.dll",
+        "lib/net45/PayPal.xml",
+        "lib/net451/PayPal.dll",
+        "lib/net451/PayPal.xml",
+        "paypal.1.9.1.nupkg.sha512",
+        "paypal.nuspec"
+      ]
+    },
+    "PDFsharp/1.50.4000-beta3b": {
+      "sha512": "tUKPPJkLGSMqmjtpt9Bisph74oYlyBh4pkiGgojLKzqqNbrOMzupdIxA7Ge9MsFzkGptmc4OM3Yk0a2vwqIQqA==",
+      "type": "package",
+      "path": "pdfsharp/1.50.4000-beta3b",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/PdfSharp.Charting.dll",
+        "lib/net20/PdfSharp.Charting.xml",
+        "lib/net20/PdfSharp.dll",
+        "lib/net20/PdfSharp.xml",
+        "lib/net20/de/PdfSharp.Charting.resources.dll",
+        "lib/net20/de/PdfSharp.resources.dll",
+        "pdfsharp.1.50.4000-beta3b.nupkg.sha512",
+        "pdfsharp.nuspec"
       ]
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -11437,6 +11606,7 @@
     "net6.0": [
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 12.0.0",
       "Azure.Storage.Blobs >= 12.16.0",
+      "HtmlRenderer.PdfSharp >= 1.5.1-beta1",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.10",
       "Microsoft.AspNetCore.Session >= 2.2.0",
       "Microsoft.EntityFrameworkCore >= 7.0.4",
@@ -11445,28 +11615,30 @@
       "Microsoft.EntityFrameworkCore.Tools >= 7.0.4",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.18.1",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.13",
+      "PayPal >= 1.9.1",
       "Swashbuckle.AspNetCore >= 6.2.3",
-      "Swashbuckle.AspNetCore.Filters >= 7.0.6"
+      "Swashbuckle.AspNetCore.Filters >= 7.0.6",
+      "com.theartofdev.edmodo.cropper >= 2.7.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\agnie\\.nuget\\packages\\": {},
+    "C:\\Users\\karol\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
+      "projectUniqueName": "E:\\Studia\\ROK 3\\PP\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
       "projectName": "WizardShopAPI",
-      "projectPath": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
-      "packagesPath": "C:\\Users\\agnie\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\obj\\",
+      "projectPath": "E:\\Studia\\ROK 3\\PP\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
+      "packagesPath": "C:\\Users\\karol\\.nuget\\packages\\",
+      "outputPath": "E:\\Studia\\ROK 3\\PP\\WizardShopAPI\\WizardShopAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\agnie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\karol\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -11500,6 +11672,10 @@
           "Azure.Storage.Blobs": {
             "target": "Package",
             "version": "[12.16.0, )"
+          },
+          "HtmlRenderer.PdfSharp": {
+            "target": "Package",
+            "version": "[1.5.1-beta1, )"
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
@@ -11537,6 +11713,10 @@
             "target": "Package",
             "version": "[6.0.13, )"
           },
+          "PayPal": {
+            "target": "Package",
+            "version": "[1.9.1, )"
+          },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.2.3, )"
@@ -11544,6 +11724,10 @@
           "Swashbuckle.AspNetCore.Filters": {
             "target": "Package",
             "version": "[7.0.6, )"
+          },
+          "com.theartofdev.edmodo.cropper": {
+            "target": "Package",
+            "version": "[2.7.0, )"
           }
         },
         "imports": [
@@ -11565,8 +11749,60 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.407\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „com.theartofdev.edmodo.cropper 2.7.0” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "com.theartofdev.edmodo.cropper",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „HtmlRenderer.Core 1.5.1-beta1” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "HtmlRenderer.Core",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „HtmlRenderer.PdfSharp 1.5.1-beta1” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "HtmlRenderer.PdfSharp",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „PayPal 1.9.1” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "PayPal",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Pakiet „PDFsharp 1.50.4000-beta3b” został przywrócony przy użyciu elementu „.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1” zamiast platformy docelowej projektu „net6.0”. Ten pakiet może nie być w pełni kompatybilny z Twoim projektem.",
+      "libraryId": "PDFsharp",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

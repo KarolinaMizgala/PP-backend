@@ -9,23 +9,28 @@ namespace WizardShopAPI.Services
         /// This method uploads a file submitted with the request
         /// </summary>
         /// <param name="file">File for upload</param>
-        /// /// <param name="id">Id</param>
+        /// /// <param name="imageId">imageId</param>
         /// <returns>Blob with status</returns>
-        Task<ImageResponseDto> UploadAsync(IFormFile file, int id);
+        Task<ImageResponseDto> UploadAsync(IFormFile file, int imageId);
 
         /// <summary>
-        /// This method returns a list of all files located in the container
+        /// This method downloads a file with the specified filename
         /// </summary>
-        /// <returns>Blobs in a list</returns>
-        Task<List<ImageDto>> ListAsync();
+        /// <param name="imageId">Filename</param>
+        /// <returns>Blob</returns>
+        Task<ImageDto> DownloadAsync(int imageId);
 
         /// <summary>
         /// This method deletes a file with the specified filename
         /// </summary>
         /// <param name="imageId">Filename</param>
         /// <returns>Blob with status</returns>
-        Task<bool> DeleteAllImagesFromEntityAsync(int entityId);
+        Task<ImageResponseDto> DeleteAsync(int imageId);
 
-        Task<List<string>> GetListOfAllUrisForEntityAsync(int entityId);
+        /// <summary>
+        /// This method returns a list of all files located in the container
+        /// </summary>
+        /// <returns>Blobs in a list</returns>
+        Task<List<ImageDto>> ListAsync();
     }
 }

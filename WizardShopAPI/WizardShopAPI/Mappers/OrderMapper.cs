@@ -9,6 +9,7 @@ namespace WizardShopAPI.Mappers
         public OrderMapper()
         {
             CreateMap<Order, OrderDto>()
+                .ForMember(m=>m.Id, c=>c.MapFrom(s=>s.OrderId))
                 .ForMember(m => m.FirstName, c => c.MapFrom(s => s.OrderDetails.FirstName))
                 .ForMember(m => m.LastName, c => c.MapFrom(s => s.OrderDetails.LastName))
                 .ForMember(m => m.PhoneNumber, c => c.MapFrom(s => s.OrderDetails.PhoneNumber))
@@ -16,7 +17,8 @@ namespace WizardShopAPI.Mappers
                 .ForMember(m => m.Comment, c => c.MapFrom(s => s.OrderDetails.Comment));
 
            CreateMap<Address, AddressDto>();
-       
+            CreateMap<Payment, PaymentDto>();
+            CreateMap<PaymentDto, Payment>();
             CreateMap<OrderDetailsDto, OrderDetails>()
                 .ForMember(r => r.Address,
                 c => c.MapFrom(dto => new Address()

@@ -6,6 +6,7 @@ using System.Text;
 using WizardShopAPI.DTOs;
 using WizardShopAPI.Models;
 
+
 namespace WizardShopAPI.Infrastructure
 {
     public class ShoppingCartManager

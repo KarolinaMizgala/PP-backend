@@ -1,7 +1,11 @@
-﻿namespace WizardShopAPI.Services
+﻿using WizardShopAPI.DTOs;
+
+namespace WizardShopAPI.Services
 {
-    public interface IAzureReviewStorage : IAzureStorage
+    public interface IAzureReviewStorage:IAzureStorage
     {
-        Task<bool> DeleteAllImagesFromReviewAsync(int reviewId);
+       // Task<int> GetReviewImageId(int reviewId);
+
+        Task<List<ImageDto>> ListAllImagesForReviewAsync(int reviewId);
     }
 }

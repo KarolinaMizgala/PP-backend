@@ -7,7 +7,7 @@ namespace WizardShopAPI.DTOs
     public class OrderDto
     {
 
-       
+       public int Id { get; set; }  
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
@@ -33,10 +33,13 @@ namespace WizardShopAPI.DTOs
         public int? ApartmentNumber { get; set; }
 
         public DateTime DateCreated { get; set; }
+        public DateTime? DatePayment { get; set; }
+        public DateTime? DateShipped { get; set; }
+        public DateTime? DateDelivered { get; set; }
         public double TotalPrice { get; set; }
         public OrderState OrderState { get; set; }
+        public int? PaymentId { get; set; }
 
-      
         public List<OrderItem> OrderItems { get; set; }
     }
 }

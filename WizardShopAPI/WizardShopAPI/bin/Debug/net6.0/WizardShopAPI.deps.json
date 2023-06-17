@@ -10,6 +10,7 @@
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.0",
           "Azure.Storage.Blobs": "12.16.0",
+          "HtmlRenderer.PdfSharp": "1.5.1-beta1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.10",
           "Microsoft.AspNetCore.Session": "2.2.0",
           "Microsoft.EntityFrameworkCore": "7.0.4",
@@ -18,8 +19,10 @@
           "Microsoft.EntityFrameworkCore.Tools": "7.0.4",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.18.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.13",
+          "PayPal": "1.9.1",
           "Swashbuckle.AspNetCore": "6.2.3",
-          "Swashbuckle.AspNetCore.Filters": "7.0.6"
+          "Swashbuckle.AspNetCore.Filters": "7.0.6",
+          "com.theartofdev.edmodo.cropper": "2.7.0"
         },
         "runtime": {
           "WizardShopAPI.dll": {}
@@ -103,6 +106,34 @@
           "lib/net6.0/Azure.Storage.Common.dll": {
             "assemblyVersion": "12.15.0.0",
             "fileVersion": "12.1500.23.21104"
+          }
+        }
+      },
+      "com.theartofdev.edmodo.cropper/2.7.0": {
+        "runtime": {
+          "lib/com.theartofdev.edmodo.cropper.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "HtmlRenderer.Core/1.5.1-beta1": {
+        "runtime": {
+          "lib/net45/HtmlRenderer.dll": {
+            "assemblyVersion": "1.5.1.0",
+            "fileVersion": "1.5.1.0"
+          }
+        }
+      },
+      "HtmlRenderer.PdfSharp/1.5.1-beta1": {
+        "dependencies": {
+          "HtmlRenderer.Core": "1.5.1-beta1",
+          "PDFsharp": "1.50.4000-beta3b"
+        },
+        "runtime": {
+          "lib/net45/HtmlRenderer.PdfSharp.dll": {
+            "assemblyVersion": "1.5.1.0",
+            "fileVersion": "1.5.1.0"
           }
         }
       },
@@ -1673,6 +1704,37 @@
           }
         }
       },
+      "PayPal/1.9.1": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "lib/net451/PayPal.dll": {
+            "assemblyVersion": "1.9.1.0",
+            "fileVersion": "1.9.1.0"
+          }
+        }
+      },
+      "PDFsharp/1.50.4000-beta3b": {
+        "runtime": {
+          "lib/net20/PdfSharp.Charting.dll": {
+            "assemblyVersion": "1.50.4000.0",
+            "fileVersion": "1.50.4000.0"
+          },
+          "lib/net20/PdfSharp.dll": {
+            "assemblyVersion": "1.50.4000.0",
+            "fileVersion": "1.50.4000.0"
+          }
+        },
+        "resources": {
+          "lib/net20/de/PdfSharp.Charting.resources.dll": {
+            "locale": "de"
+          },
+          "lib/net20/de/PdfSharp.resources.dll": {
+            "locale": "de"
+          }
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -2693,6 +2755,27 @@
       "path": "azure.storage.common/12.15.0",
       "hashPath": "azure.storage.common.12.15.0.nupkg.sha512"
     },
+    "com.theartofdev.edmodo.cropper/2.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Zo52Sb2jWI8xVgBDwDhoWRu6WjJ4Xv/ZcGFrMPgmpy4rNLB/VmQqraZeik/o4dAxQSEFI6kKE0IJLWVWrxdxxw==",
+      "path": "com.theartofdev.edmodo.cropper/2.7.0",
+      "hashPath": "com.theartofdev.edmodo.cropper.2.7.0.nupkg.sha512"
+    },
+    "HtmlRenderer.Core/1.5.1-beta1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HmMbhQuB5oEZvKa5kBFL7zWEdpzN9qpj0aO48VQ5A5kAuz1Cd0tzf37tek81K9IqcOo32MZhD3HqsSKM3R1uBQ==",
+      "path": "htmlrenderer.core/1.5.1-beta1",
+      "hashPath": "htmlrenderer.core.1.5.1-beta1.nupkg.sha512"
+    },
+    "HtmlRenderer.PdfSharp/1.5.1-beta1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3+w+AJDiDVzYRk3K3jvTo+4Lf4h6fsnUDEf6hWB1dBouWolaTAHRCdNNO8r/Du3cFlfNeeMXqIUuNUEuINsvHA==",
+      "path": "htmlrenderer.pdfsharp/1.5.1-beta1",
+      "hashPath": "htmlrenderer.pdfsharp.1.5.1-beta1.nupkg.sha512"
+    },
     "Humanizer.Core/2.14.1": {
       "type": "package",
       "serviceable": true,
@@ -3350,6 +3433,20 @@
       "sha512": "sha512-T/igBDLXCd+pH3YTWgGVNvYSOwbwaT30NyyM9ONjvlHlmaUjKBJpr9kH0AeL+Ado4EJsBhU3qxXVc6lyrpRcMw==",
       "path": "nuget.versioning/6.3.1",
       "hashPath": "nuget.versioning.6.3.1.nupkg.sha512"
+    },
+    "PayPal/1.9.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-b3vq6Lc9CwSooCX2tsZ02zb7E/K/cA6EILCoMynue+ZeVuitJNqt0YwxPnp7uN0Pccob02oDlpAjRLH+GRCRxA==",
+      "path": "paypal/1.9.1",
+      "hashPath": "paypal.1.9.1.nupkg.sha512"
+    },
+    "PDFsharp/1.50.4000-beta3b": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tUKPPJkLGSMqmjtpt9Bisph74oYlyBh4pkiGgojLKzqqNbrOMzupdIxA7Ge9MsFzkGptmc4OM3Yk0a2vwqIQqA==",
+      "path": "pdfsharp/1.50.4000-beta3b",
+      "hashPath": "pdfsharp.1.50.4000-beta3b.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
