@@ -14,7 +14,6 @@ namespace WizardShopAPI.Mappers
                 Description=dto.Description,
                 Price=dto.Price,
                 Rating=dto.Rating,
-                PhotoId=dto.PhotoId,
                 CategoryId=dto.CategoryId,
                 Popularity=dto.Popularity,
                 Quantity=dto.Quantity

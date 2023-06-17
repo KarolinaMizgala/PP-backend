@@ -24,10 +24,6 @@ namespace WizardShopAPI.DTOs
         [Unicode(false)]
         public string Rating { get; set; } = "No data";
 
-        [StringLength(20)]
-        [Unicode(false)]
-        public string? PhotoId { get; set; }
-
         [Required]
         public int CategoryId { get; set; }
         [Required]
