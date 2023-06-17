@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using WizardShopAPI.DTOs;
-using WizardShopAPI.Models;
 using WizardShopAPI.ResponseDto;
 using WizardShopAPI.Services;
 
@@ -13,11 +11,9 @@ namespace WizardShopAPI.Controllers
     public class ProductStorageController : ControllerBase
     {
         private readonly IAzureStorage _storage;
-        private readonly WizardShopDbContext _context;
-        public ProductStorageController(IAzureStorage storage, WizardShopDbContext context)
+        public ProductStorageController(IAzureStorage storage)
         {
             _storage = storage;
-            _context = context;
         }
 
         [HttpGet(nameof(Get))]
@@ -30,11 +26,9 @@ namespace WizardShopAPI.Controllers
             return StatusCode(StatusCodes.Status200OK, files);
         }
 
-        [HttpPost("{productId}")]
+        [HttpPost("{productId}")] //if its a review image id: R+ _ + review id
         public async Task<IActionResult> Upload(IFormFile file, int productId)
         {
-            if (!_context.Products.Any(p => p.Id == productId)) return BadRequest("invalid product id");
-
             ImageResponseDto? response = await _storage.UploadAsync(file, productId);
 
             // Check if we got an error
@@ -50,34 +44,42 @@ namespace WizardShopAPI.Controllers
             }
         }
 
-        [HttpGet("{productId}")]
-        public async Task<IActionResult> GetAllProductImages(int productId)
+        [HttpGet("{imageId}")]
+        public async Task<IActionResult> Download(int imageId)
         {
-            if (!_context.Products.Any(p => p.Id == productId)) return BadRequest("invalid product id");
-            List<string>? files = await _storage.GetListOfAllUrisForEntityAsync(productId);
+            ImageDto? file = await _storage.DownloadAsync(imageId);
 
-            return StatusCode(StatusCodes.Status200OK, files);
+            // Check if file was found
+            if (file == null)
+            {
+                // Was not, return error message to client
+                return StatusCode(StatusCodes.Status404NotFound, $"File {imageId} doesn't exist.");
+            }
+            else
+            {
+                // File was found, return it to client
+                // return File(file.Content, file.ContentType, file.Name,file.Uri);
+                return StatusCode(StatusCodes.Status200OK, file);
+            }
         }
 
         [HttpDelete("{productId}")]
         public async Task<IActionResult> Delete(int productId)
         {
-            if (!_context.Products.Any(p => p.Id == productId)) return BadRequest("invalid product id");
-
-            bool response = await _storage.DeleteAllImagesFromEntityAsync(productId);
+            ImageResponseDto response = await _storage.DeleteAsync(productId);
 
             // Check if we got an error
-            if (!response)
+            if (response.Error == true)
             {
                 // Return an error message to the client
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, response.Status);
             }
             else
             {
                 // File has been successfully deleted
-                return StatusCode(StatusCodes.Status200OK);
+                return StatusCode(StatusCodes.Status200OK, response.Status);
             }
         }
-    }
 
+    }
 }

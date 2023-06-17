@@ -26,7 +26,7 @@ namespace WizardShopAPI.DTOs
 
         [StringLength(20)]
         [Unicode(false)]
-        public string? PhotoId { get; set; } //to list
+        public string? PhotoId { get; set; }
 
         [Required]
         public int CategoryId { get; set; }

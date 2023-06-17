@@ -10,11 +10,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client.Extensions.Msal;
 using WizardShopAPI.DTOs;
 using WizardShopAPI.Mappers;
 using WizardShopAPI.Models;
-using WizardShopAPI.Services;
 using WizardShopAPI.Storage;
 
 namespace WizardShopAPI.Controllers
@@ -24,12 +22,10 @@ namespace WizardShopAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly WizardShopDbContext _context;
-        private readonly IAzureStorage _storage;
 
-        public ProductsController(WizardShopDbContext context, IAzureStorage storage)
+        public ProductsController(WizardShopDbContext context)
         {
             _context = context;
-            _storage= storage;
         }
 
         // GET: api/Products/
@@ -183,11 +179,6 @@ namespace WizardShopAPI.Controllers
             {
                 return NotFound();
             }
-
-
-            bool response = await _storage.DeleteAllImagesFromEntityAsync(id);
-
-            if (!response) return BadRequest();
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
