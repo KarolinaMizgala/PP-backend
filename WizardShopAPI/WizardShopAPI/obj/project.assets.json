@@ -11628,11 +11628,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\agnie\\source\\repos\\wziard\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
+      "projectUniqueName": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
       "projectName": "WizardShopAPI",
-      "projectPath": "C:\\Users\\agnie\\source\\repos\\wziard\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
+      "projectPath": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
       "packagesPath": "C:\\Users\\agnie\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\agnie\\source\\repos\\wziard\\PP-backend\\WizardShopAPI\\WizardShopAPI\\obj\\",
+      "outputPath": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
