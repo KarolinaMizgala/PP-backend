@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "npxLqTf3hESWYxOYwx6EABIXQPAKGZizUj2pJwbpk+NCTNAzxSaRvPk86XKGq/oOqb6CbDEn1/B7crfPx4WF7A==",
+  "dgSpecHash": "IVasGpuzvmwzKU+m0JagXriJYY6+clgv7f/ZQfQ7pLKdsbQdprCeKTIS4EhSTODxM0eImGNtTBZjNEPbmkr6VA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\agnie\\source\\repos\\wziard\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
+  "projectFilePath": "C:\\Users\\agnie\\source\\repos\\WIZARD SHOP\\PP-backend\\WizardShopAPI\\WizardShopAPI\\WizardShopAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\agnie\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\agnie\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

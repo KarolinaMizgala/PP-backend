@@ -893,3 +893,11 @@ C:\Users\agnie\source\repos\wziard\PP-backend\WizardShopAPI\WizardShopAPI\obj\De
 C:\Users\agnie\source\repos\wziard\PP-backend\WizardShopAPI\WizardShopAPI\obj\Debug\net6.0\WizardShopAPI.csproj.CopyComplete
 C:\Users\agnie\source\repos\wziard\PP-backend\WizardShopAPI\WizardShopAPI\obj\Debug\net6.0\WizardShopAPI.genruntimeconfig.cache
 C:\Users\agnie\source\repos\wziard\PP-backend\WizardShopAPI\WizardShopAPI\obj\Debug\net6.0\ref\WizardShopAPI.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\com.theartofdev.edmodo.cropper.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\HtmlRenderer.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\HtmlRenderer.PdfSharp.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\PayPal.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\PdfSharp.Charting.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\PdfSharp.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\de\PdfSharp.Charting.resources.dll
+C:\Users\agnie\source\repos\WIZARD SHOP\PP-backend\WizardShopAPI\WizardShopAPI\bin\Debug\net6.0\de\PdfSharp.resources.dll

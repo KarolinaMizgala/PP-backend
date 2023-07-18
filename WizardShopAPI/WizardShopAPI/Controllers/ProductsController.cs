@@ -101,6 +101,17 @@ namespace WizardShopAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
+            //validation check
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid values");
+            }
+            //check if category exists
+            if (!CategoryExists(product.CategoryId))
+            {
+                return NotFound("No category with that id");
+            }
+
             if (id != product.Id)
             {
                 return BadRequest();
